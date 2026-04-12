@@ -88,8 +88,10 @@ int CellPosition::GetCellNumFromPosition(const CellPosition & cellPosition)
 	// just define an integer that represents cell number and calculate it using the passed cellPosition then return it
 
 	///TODO: Implement this function as described in the .h file
+	if (!cellPosition.IsValidCell())
+		return -1;
 
-	return 0; // this line should be changed with your implementation
+	return ((4-cellPosition.VCell())*11)+cellPosition.HCell()+1; // this line should be changed with your implementation
 }
 
 CellPosition CellPosition::GetCellPositionFromNum(int cellNum)

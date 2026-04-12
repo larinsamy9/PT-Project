@@ -88,7 +88,6 @@ int main()
 	CellPosition cell_10(10);	// cell num 10
 	CellPosition cell_53(53);	// cell num 53
 	CellPosition cell_1(1);		// cell num 1
-
 	// TODO: Draw Water Pits in cell_10 and cell_53 and cell_1 (Invalid)
 	
 
