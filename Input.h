@@ -12,7 +12,7 @@ class Output;
 class Input		// The application manager & grid (phase 2) should have a pointer to this class
 {
 private:
-
+	int o;
 	window *pWind;	// Pointer to the Graphics Windo
 
 public:
