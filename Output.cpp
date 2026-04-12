@@ -242,18 +242,34 @@ void Output::CreateDesignModeToolBar() const
 	MenuItemImages[ITM_SWITCH_TO_PLAY_MODE] = "images\\Menu_SwitchToGame.jpg";
 	
 	///TODO: Change the path of the images as needed
-	MenuItemImages[ITM_SET_FLAG_CELL] = "images\\Menu_Dice.jpg";
-	
+	MenuItemImages[ITM_SET_FLAG_CELL] = "images\\Flag.jpg";
+	MenuItemImages[ITM_ADD_FLAG] = "images\\Flag.jpg";
+	MenuItemImages[ITM_ADD_ANTENNA] = "images\\Antenna.jpg";
+	MenuItemImages[ITM_ADD_BELT] = "images\\Belt.jpg";
+	MenuItemImages[ITM_ADD_WATER_PITS] = "images\\WaterPits.jpg";
+	MenuItemImages[ITM_ADD_DANGER_ZONE] = "images\\DangerZone.jpg";
+	MenuItemImages[ITM_ADD_WORK_SHOP] = "images\\Workshop.jpg";
+	MenuItemImages[ITM_ROTATING_GEAR] = "images\\Rotating.jpg";
+	MenuItemImages[ITM_COPY] = "images\\Copy.jpg";
+	MenuItemImages[ITM_CUT] = "images\\Cut.jpg";
+	MenuItemImages[ITM_PASTE] = "images\\Paste.jpg";
+	MenuItemImages[ITM_DELETE] = "images\\Delete.jpg";
+	MenuItemImages[ITM_SAVE] = "images\\Save.jpg";
+	MenuItemImages[ITM_OPEN] = "images\\Open.jpg";
 	
 	///TODO: Prepare images for each menu item and add it to the list
 
 
+	pWind->SetPen(WHITE, 1);
+	pWind->SetBrush(WHITE);
+	pWind->DrawRectangle(0, 0, UI.width, UI.ToolBarHeight);
 
 	// Draw menu item one image at a time
 	for(int i=0; i < DESIGN_ITM_COUNT; i++)
 		pWind->DrawImage(MenuItemImages[i], i*UI.MenuItemWidth, 0, UI.MenuItemWidth, UI.ToolBarHeight);
 
-
+	pWind->SetPen(RED, 3);
+	pWind->DrawLine(0, UI.ToolBarHeight, UI.width, UI.ToolBarHeight);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -274,18 +290,31 @@ void Output::CreatePlayModeToolBar() const
 	string MenuItemImages[PLAY_ITM_COUNT];
 	MenuItemImages[ITM_SWITCH_TO_DESIGN_MODE] = "images\\Menu_SwitchToGrid.jpg";
 
+
 	///TODO: Change the path of the images as needed
+	
 	MenuItemImages[ITM_EXECUTE_COMMANDS] = "images\\Menu_Dice.jpg";
-	MenuItemImages[ITM_SELECT_COMMAND] = "images\\Menu_Dice.jpg";
+	MenuItemImages[ITM_SELECT_COMMAND] = "images\\SelectCommand.jpg";
+	MenuItemImages[ITM_ROBOT] = "images\\Robot.jpg";
+	MenuItemImages[ITM_EXIT_Play] = "images\\Menu_Exit.jpg";
+	MenuItemImages[ITM_MOVE_FORWARD] = "images\\MoveForwardCard.jpg";
+	MenuItemImages[ITM_MOVE_BAKWARD] = "images\\Backward.jpg";
+	MenuItemImages[ITM_ROTATE_LEFT] = "images\\Right.jpg";
+	MenuItemImages[ITM_ROTATE_RIGHT] = "images\\Left.jpg";
+
 
 	///TODO: Prepare images for each menu item and add it to the list
 
-
+	pWind->SetPen(WHITE, 1);
+	pWind->SetBrush(WHITE);
+	pWind->DrawRectangle(0, 0, UI.width, UI.ToolBarHeight);
 
 	// Draw menu item one image at a time
 	for(int i=0; i < PLAY_ITM_COUNT; i++)
 		pWind->DrawImage(MenuItemImages[i], i*UI.MenuItemWidth, 0, UI.MenuItemWidth, UI.ToolBarHeight);
 
+	pWind->SetPen(RED, 3);
+	pWind->DrawLine(0, UI.ToolBarHeight, UI.width, UI.ToolBarHeight);
 }
 
 void Output::CreateCommandsBar(Command savedCommands[], int savedCommandsCount, Command availableCommands[], int availableCommandsCount) const
@@ -295,6 +324,7 @@ void Output::CreateCommandsBar(Command savedCommands[], int savedCommandsCount, 
 	string CommandItemImages[COMMANDS_COUNT];
 	CommandItemImages[NO_COMMAND] = "images\\CommandSlot-grey.jpg";
 	CommandItemImages[MOVE_FORWARD_ONE_STEP] = "images\\MoveForwardCard.jpg";
+
 	// TODO: Prepare images for more items with .jpg extensions and add them to the list 
 
 	DrawSavedCommands(savedCommands, savedCommandsCount, CommandItemImages);
