@@ -26,7 +26,7 @@ CellPosition::CellPosition (int cellNum)
 												//                   to the data members (vCell and hCell)
 }
 
-bool CellPosition::SetVCell(int v=5) 
+bool CellPosition::SetVCell(int v) 
 {
 	if(vCell>5) {
 		return false;
@@ -40,7 +40,7 @@ bool CellPosition::SetVCell(int v=5)
 	 // this line sould be changed with your implementation
 }
 
-bool CellPosition::SetHCell(int h=11) 
+bool CellPosition::SetHCell(int h) 
 {
 	if (hCell > 11) {
 		return false;
@@ -64,11 +64,15 @@ int CellPosition::HCell() const
 	return hCell;
 }
 
-bool CellPosition::IsValidCell() const 
+bool CellPosition::IsValidCell() const
 {
+	if (hCell > 11 || hCell < 0 || vCell>5 || vCell < 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
 	///TODO: Implement this function as described in the .h file
-
-	return false; // this line sould be changed with your implementation
 }
 
 int CellPosition::GetCellNum() const

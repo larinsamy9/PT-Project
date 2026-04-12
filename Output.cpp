@@ -457,9 +457,9 @@ void Output::DrawCell(const CellPosition & cellPos, color cellColor) const
 	
 	pWind->SetBrush(cellColor);
 	
-
 	///TODO: Draw the Cell Rectangle using the appropriate coordinates
 	//       using cellStartX, cellStartY, UI.CellWidth, UI.CellHeight
+
 	pWind->DrawRectangle(cellStartX, cellStartY, cellStartX + UI.CellWidth, cellStartY + UI.CellHeight);
 
 	// ----- 2- Draw the CELL number (the small number at the bottom right of the cell) -----
@@ -494,7 +494,9 @@ void Output::DrawCell(const CellPosition & cellPos, color cellColor) const
 void Output::DrawPlayer(const CellPosition & cellPos, int playerNum, color playerColor, Direction direction) const
 {
 	// TODO: Validate the cell position and the playerNum, if not valid return
-	
+	if (!cellPos.IsValidCell()||playerNum>1|| playerNum<0) {
+		return;
+	}
 
 	// Get the X & Y coordinates of the start point of the cell (its upper left corner)
 	int cellStartX = GetCellStartX(cellPos);
@@ -517,11 +519,36 @@ void Output::DrawPlayer(const CellPosition & cellPos, int playerNum, color playe
 
 	// Calculate the X coordinate of the center of the player's triangle (based on playerNum)
 	int x = cellStartX + UI.BeltXOffset + radius + 4; // UI.BeltXOffset is used to draw players' triangles 
-														// AFTER the Belt start vertical line (assuming there is a belt)
+	   											// AFTER the Belt start vertical line (assuming there is a belt)
 														// for not overlapping with belts
 
 	// TODO: Draw the player triangle in center(x,y) and filled with the playerColor passed to the function
-	
+	int vx[3], vy[3];
+	switch (direction) {
+	case(UP):
+		vx[0] = x; vy[0] = y - radius;
+		vx[1] = x - radius; vy[1] = y + radius;
+		vx[2] = x + radius; vy[2] = y + radius;
+		break;
+	case(DOWN):
+		vx[0] = x; vy[0] = y + radius;
+		vx[1] = x - radius; vy[1] = y - radius;
+		vx[2] = x + radius; vy[2] = y - radius;
+		break;
+	case(RIGHT):
+		vx[0] = x=radius; vy[0] = y;
+		vx[1] = x - radius; vy[1] = y - radius;
+		vx[2] = x - radius; vy[2] = y + radius;
+		break;
+	case(LEFT):
+		vx[0] = x-radius; vy[0] = y ;
+		vx[1] = x + radius; vy[1] = y - radius;
+		vx[2] = x + radius; vy[2] = y + radius;
+		break;
+	}
+	pWind->SetPen(playerColor, 2);
+	pWind->SetBrush(playerColor);
+	pWind->DrawPolygon(vx, vy,3);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -571,6 +598,9 @@ void Output::DrawBelt(const CellPosition& fromCellPos, const CellPosition& toCel
 void Output::DrawFlag(const CellPosition& cellPos) const
 {
 	// TODO: Validate the cell position
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
 
 	// Get the X and Y coordinates of the start point of the cell (its upper left corner)
 	int cellStartX = GetCellStartX(cellPos);
@@ -581,16 +611,40 @@ void Output::DrawFlag(const CellPosition& cellPos) const
 	// TODO: 1. Draw the flag pole (the line)
 	int flagPoleStartX = cellStartX + UI.CellWidth / 2;
 	int flagPoleStartY = cellStartY + UI.CellHeight / 4;
+	int poleBottomY = cellStartY + UI.CellHeight *3 / 4;
+	pWind->SetPen(RED, 3);
+	pWind->DrawLine(flagPoleStartX, flagPoleStartY, flagPoleStartX, poleBottomY);
 
 	
 
 	// 		 2. Draw the flag (the triangle)
-	
+	int triangleX[3] = { flagPoleStartX ,flagPoleStartX + (UI.CellWidth / 2),flagPoleStartX };
+	int triangleY[3] = { flagPoleStartY ,flagPoleStartY + (UI.CellHeight / 4),flagPoleStartY+ (UI.CellHeight / 2) };
+	pWind->SetPen(RED, 1);
+	pWind->SetBrush(RED);
+	pWind->DrawPolygon(triangleX, triangleY, 3);
 	
 }
 
 void Output::DrawRotatingGear(const CellPosition& cellPos, bool clockwise) const
 {
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	int cellStartX = GetCellStartX(cellPos);
+	int cellStartY = GetCellStartY(cellPos);
+	int centerX = cellStartX + UI.CellWidth / 2;
+	int centerY = cellStartY + UI.CellHeight / 2;
+	int radius = UI.CellWidth / 4;
+	string ImagePath;
+	if (clockwise)
+		ImagePath = "images\\Left.jpg";
+	else
+		 ImagePath = "images\\Right.jpg";
+
+	pWind->DrawImage(ImagePath, cellStartX, cellStartY, UI.CellWidth, UI.CellHeight);
+
+	
 	// TODO: Validate the cell position
 
 	// TODO: Draw the rotating gear image in the cell based on the passed direction (clockwise or counter clockwise)
@@ -600,6 +654,17 @@ void Output::DrawRotatingGear(const CellPosition& cellPos, bool clockwise) const
 
 void Output::DrawAntenna(const CellPosition& cellPos) const
 {
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	int cellStartX = GetCellStartX(cellPos);
+	int cellStartY = GetCellStartY(cellPos);
+	int centerX = cellStartX + UI.CellWidth / 2;
+	int centerY = cellStartY + UI.CellHeight / 2;
+	int radius = UI.CellWidth / 4;
+	string ImagePath = "images\\Antenna.jpg";
+	
+	pWind->DrawImage(ImagePath, cellStartX, cellStartY, UI.CellWidth, UI.CellHeight);
 	// TODO: Validate the cell position
 
 	// TODO: Draw the antenna image in the cell
@@ -610,6 +675,17 @@ void Output::DrawAntenna(const CellPosition& cellPos) const
 
 void Output::DrawWorkshop(const CellPosition& cellPos) const
 {
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	int cellStartX = GetCellStartX(cellPos);
+	int cellStartY = GetCellStartY(cellPos);
+	int centerX = cellStartX + UI.CellWidth / 2;
+	int centerY = cellStartY + UI.CellHeight / 2;
+	int radius = UI.CellWidth / 4;
+	string ImagePath = "images\\WorkShop.jpg";
+
+	pWind->DrawImage(ImagePath, cellStartX, cellStartY, UI.CellWidth, UI.CellHeight);
 	// TODO: Validate the cell position
 
 	// TODO: Draw the workshop image in the cell
@@ -620,6 +696,17 @@ void Output::DrawWorkshop(const CellPosition& cellPos) const
 
 void Output::DrawDangerZone(const CellPosition& cellPos) const
 {
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	int cellStartX = GetCellStartX(cellPos);
+	int cellStartY = GetCellStartY(cellPos);
+	int centerX = cellStartX + UI.CellWidth / 2;
+	int centerY = cellStartY + UI.CellHeight / 2;
+	int radius = UI.CellWidth / 4;
+	string ImagePath = "images\\DangerZone.jpg";
+
+	pWind->DrawImage(ImagePath, cellStartX, cellStartY, UI.CellWidth, UI.CellHeight);
     ///TODO: Complete the implementation of the following function
 
 
@@ -628,11 +715,19 @@ void Output::DrawDangerZone(const CellPosition& cellPos) const
 void Output::DrawWaterPit(const CellPosition& cellPos) const
 {
 	///TODO: Complete the implementation of the following function
+	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	int cellStartX = GetCellStartX(cellPos);
+	int cellStartY = GetCellStartY(cellPos);
+	int centerX = cellStartX + UI.CellWidth / 2;
+	int centerY = cellStartY + UI.CellHeight / 2;
+	int radius = UI.CellWidth / 4;
+	string ImagePath = "images\\WaterPits.jpg";
 
+	pWind->DrawImage(ImagePath, cellStartX, cellStartY, UI.CellWidth, UI.CellHeight);
 
 }
-
-
 
 Output::~Output()
 {
