@@ -47,11 +47,32 @@ int Input::GetInteger(Output *pO) const
 
 	///TODO: implement the GetInteger function as described in Input.h file 
 	//       using function GetString() defined above and function stoi()
+	string s = GetSrting(pO);
 
-	
+	if (s == "") return 0;
 
+	bool valid = true;
 
-
+	for (int i = 0; i < s.size(); i++)
+	{
+		if (i == 0 && (s[i] == '+' || s[i] == '-'))
+			continue;
+		if (!(s[i] >= '0' && s[i] <= '9'))
+		{
+			valid = false;
+			break;
+		}
+	}
+	if (valid)
+	{
+		return stoi(s);
+	}
+	else
+	{
+		if (pO)
+			pO->PrintMessage("wrong number , try again");
+		return GetInteger(pO);
+	}
 	// Note: stoi(s) converts string s into its equivalent integer (for example, "55" is converted to 55)
 
 	return 0; // this line should be changed with your implementation
@@ -87,10 +108,18 @@ ActionType Input::GetUserAction() const
 			case ITM_SWITCH_TO_PLAY_MODE: return TO_PLAY_MODE;			
 
 				///TODO: Add cases for the other items of Design Mode
-
-
-
-
+			case ITM_ADD_ANTENNA: return ADD_ANTENNA;
+			case ITM_ADD_BELT: return ADD_BELT;
+			case ITM_ADD_WATER_PITS: return ADD_WATER_PIT;
+			case ITM_ADD_DANGER_ZONE: return ADD_DANGER_ZONE;
+			case ITM_ADD_WORK_SHOP: return ADD_WORKSHOP;
+			case ITM_ROTATING_GEAR: return ADD_GEAR;
+			case ITM_COPY: return COPY_OBJECT;
+			case ITM_CUT: return CUT_OBJECT;
+			case ITM_PASTE: return PASTE_OBJECT;
+			case ITM_DELETE: return DELETE_OBJECT;
+			case ITM_SAVE: return SAVE_GRID;
+			case ITM_LOAD: return LOAD_GRID;
 			default: return EMPTY;	// A click on empty place in toolbar
 			}
 		}
@@ -111,12 +140,29 @@ ActionType Input::GetUserAction() const
 		///TODO:
 		// perform checks similar to Design mode checks above for the Play Mode
 		// and return the corresponding ActionType
+		if (y >= 0 && y < UI.ToolBarHeight)
+		{
+			int clickedItemOrder = x / UI.MenuItemWidth;
 
-		return TO_DESIGN_MODE;	// just for now ==> This should be updated
+			switch (clickedItemOrder)
+			{
+			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
+			case ITM_EXIT: return EXIT;
 
-
-
-
+			default: return EMPTY;
+			}
+		}
+		if ((y >= UI.height - UI.StatusBarHeight - UI.CommandsBarHeight) &&
+			(y < UI.height - UI.StatusBarHeight))
+		{
+			return COMMAND_BAR;
+		}
+		if (y >= UI.ToolBarHeight && y < UI.height - UI.StatusBarHeight)
+		{
+			return GRID_AREA;
+		}
+		return STATUS;
+		//return TO_DESIGN_MODE;	// just for now ==> This should be updated
 	}	
 
 }
@@ -136,9 +182,11 @@ CellPosition Input::GetCellClicked() const
 		{
 			///TODO: SetHCell and SetVCell of the object cellPost appropriately
 			//       using the coordinates x, y and the appropriate variables of the UI_Info Object (UI)
-			
+			int vCell = (y - UI.ToolBarHeight) / UI.CellHeight;
+			int hCell = x / UI.CellWidth;
 
-
+			cellPos.SetVCell(vCell);
+			cellPos.SetHCell(hCell);
 		}
 	}
 

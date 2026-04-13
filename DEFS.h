@@ -13,13 +13,27 @@ enum ActionType // The actions supported (add more as needed)
 	TO_PLAY_MODE,	// Go to Play Mode
 
 	///TODO: Add more action types of Design Mode
-
+	ADD_ANTENNA,       //ana omar w zawdt kol dool
+	ADD_BELT,
+	ADD_WATER_PIT,
+	ADD_DANGER_ZONE,
+	ADD_WORKSHOP,
+	ADD_GEAR,
+	COPY_OBJECT,
+	CUT_OBJECT,
+	PASTE_OBJECT,
+	DELETE_OBJECT,
+	SAVE_GRID,
+	LOAD_GRID,
+	TO_PLAY_MODE,
+	EXIT,
 	//  [2] Actions of Play Mode
 
 	EXECUTE_COMMANDS,	// Execute the saved commands
 	SELECT_COMMAND,		// Select a command from the available ones to be executed
 
-	TO_DESIGN_MODE,	// Go to Design Mode
+	TO_DESIGN_MODE, // Go to Design Mode
+	COMMAND_BAR,
 
 	///TODO: Add more action types of Play Mode
 
