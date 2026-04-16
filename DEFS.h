@@ -4,14 +4,15 @@
 #include "CMUgraphicsLib\CMUgraphics.h"
 
 // This file contains some global constants and definitions to be used in the project.
-
+const int NumVerticalCells = 5;
+const int NumHorizontalCells = 11;
 enum ActionType // The actions supported (add more as needed)
 {
 	//  [1] Actions of Design Mode
 	SET_FLAG_CELL,	// Set Flag on a Cell
 	EXIT,			// Exit Application
 	TO_PLAY_MODE,	// Go to Play Mode
-
+	
 	///TODO: Add more action types of Design Mode
 	ADD_ANTENNA,       //ana omar w zawdt kol dool
 	ADD_BELT,
