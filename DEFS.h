@@ -26,8 +26,6 @@ enum ActionType // The actions supported (add more as needed)
 	DELETE_OBJECT,
 	SAVE_GRID,
 	LOAD_GRID,
-	TO_PLAY_MODE,
-	EXIT,
 	//  [2] Actions of Play Mode
 
 	EXECUTE_COMMANDS,	// Execute the saved commands
