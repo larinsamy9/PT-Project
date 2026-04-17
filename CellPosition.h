@@ -3,125 +3,20 @@
 
 class CellPosition
 {
-	int vCell; // the vertical cell number: starts from 0 to NumVerticalCells - 1
-	int hCell; // the horizontal cell number: starts from 0 to NumHorizontalCells - 1
+	int vCell;
+	int hCell; 
 
 public:
-	CellPosition(); // Initializes the cell to (-1,-1) indicating not initialized with valid values
-	CellPosition(int v, int h); // Sets vCell and hCell if valid
-	CellPosition(int cellNum);  // Sets vCell and hCell from the passed cellNum if valid
-
-	// Note: this class does NOT deal with real coordinates, it deals with the "vCell", "hCell" and "cellNum" instead
-
-	// assuming NumVerticalCells = 5 and NumHorizontalCells = 11 
-	// Cell Numbers (CellNum) should be from 1 to 55
-	// Numbered from [left-to-right] [bottom-up], as follows:
-
-	// hCell (right):   0    1   ...   10
-	// vCell (below):
-	//   0             C45  C46  ...  C55
-	//   1             C34  C35  ...  C44
-	//  ...            ...  ...  ...  ...
-	//   3             C12  C13  ...  C22
-	//   4             C1   C2   ...  C11
-
-	// In the Grid above, C13 has vCell = 3 and hCell = 1
-
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	bool SetVCell(int v)// The setter of vCell (the setter here sets only if "v" is in grid range)
-	{
-		if (v >= 0 && v < NumVerticalCells)
-		{
-			vCell = v;
-			return true;  // It returns true, if the parameter is valid and the setting is applied, 
-		}
-		return false;   // Otherwise, return false with no setting
-	}
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	bool SetHCell(int h) // The setter of hCell (the setter here sets only if the "h" is in grid range)
-	{
-		if (h >= 0 && h < NumHorizontalCells)
-		{
-			hCell = h;
-			return true;  // It returns true, if the parameter is valid and the setting is applied,
-		}
-		return false;   // Otherwise, return false with no setting
-	}
-
-
-	int VCell() const; // The getter of vCell
-	int HCell() const; // The getter of hCell
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	bool IsValidCell() const // Checks if the current cell position (vCell and hCell) both are valid then return true
-
-	{
-		if (vCell >= 0 && vCell < NumVerticalCells &&
-			hCell >= 0 && hCell < NumHorizontalCells)
-		{
-			return true;
-		}
-		return false;         // Otherwise, return false
-
-	}
-
-	int GetCellNum() const;   // Gets the cellNum from the vCell and hCell of the cell position
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	static int GetCellNumFromPosition(const CellPosition& cellPosition) // Calculates the cellNum of the passed "cellPosition"
-
-	{
-		int v = cellPosition.VCell();
-		int h = cellPosition.HCell();
-
-		return (NumVerticalCells - 1 - v) * NumHorizontalCells + h + 1;
-	}													   // It is a static function (no need for a calling obj)
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	static CellPosition GetCellPositionFromNum(int cellNum) // Returns the corresponding CellPosition (vCell, hCell) of the passed cellNum
-	{
-		if (cellNum < 1 || cellNum > NumVerticalCells * NumHorizontalCells)
-			return CellPosition(-1, -1);
-
-		int v = NumVerticalCells - 1 - (cellNum - 1) / NumHorizontalCells;
-		int h = (cellNum - 1) % NumHorizontalCells;
-
-		return CellPosition(v, h);
-	}										 // It is a static function (no need for a calling obj)
-
-	///TODO: IMPLEMENT THE FOLLOWING FUNCTION
-	/* Adds the passed "addedNum" to the "cellNum" of the current cell position based on the passed direction
-		and updates the data members (vCell and hCell) accordingly
-		for example, if cellNum = 11 (vCell = 4, hCell = 10) and the passed num = 2 and direction is up,
-		this will make cellNum = 33 which corresponds to vCell = 2 and hCell = 10
-		(assuming NumVerticalCells = 5 and NumHorizontalCells = 11 )
-		Note: Make sure to make any necessary validations
-	*/
-	void AddCellNum(int addedNum, Direction direction)
-	{
-		int cellNum = GetCellNum();
-
-		if (direction == UP)
-			cellNum += addedNum * NumHorizontalCells;
-
-		else if (direction == DOWN)
-			cellNum -= addedNum * NumHorizontalCells;
-
-		else if (direction == RIGHT)
-			cellNum += addedNum;
-
-		else if (direction == LEFT)
-			cellNum -= addedNum;
-
-		if (cellNum < 1 || cellNum > NumVerticalCells * NumHorizontalCells)
-			return;
-
-		CellPosition newPos = GetCellPositionFromNum(cellNum);
-
-		vCell = newPos.VCell();
-		hCell = newPos.HCell();
-	}
-
+	CellPosition();
+	CellPosition(int v, int h);
+	CellPosition(int cellNum);
+	bool SetVCell(int v);
+	bool SetHCell(int h);
+	int VCell() const;
+	int HCell() const;
+	bool IsValidCell() const;
+	int GetCellNum() const;
+	static int GetCellNumFromPosition(const CellPosition& cellPosition);
+	static CellPosition GetCellPositionFromNum(int cellNum);
+	void AddCellNum(int addedNum, Direction direction);
 };
