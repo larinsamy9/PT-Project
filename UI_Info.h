@@ -41,7 +41,8 @@ enum DESIGN_MODE_ITEMS // The items of the Design Mode (you should add more item
 	ITM_SAVE,
 	ITM_OPEN,
 	///TODO: Add more items names here
-	ITM_LOAD,   // ana omar w zawedt di 
+	ITM_LOAD, 
+	ITM_NEW_GAME,// ana omar w zawedt di 
 	DESIGN_ITM_COUNT	// no. of items ==> This should be the last line in this enum
 };
 

@@ -256,6 +256,8 @@ void Output::CreateDesignModeToolBar() const
 	MenuItemImages[ITM_DELETE] = "images\\Delete.jpg";
 	MenuItemImages[ITM_SAVE] = "images\\Save.jpg";
 	MenuItemImages[ITM_OPEN] = "images\\Open.jpg";
+	MenuItemImages[ITM_NEW_GAME] = "images\\New.jpg";
+	MenuItemImages[ITM_LOAD] = "images\\Load.jpg";
 	
 	///TODO: Prepare images for each menu item and add it to the list
 
@@ -556,13 +558,18 @@ void Output::DrawPlayer(const CellPosition & cellPos, int playerNum, color playe
 void Output::DrawBelt(const CellPosition& fromCellPos, const CellPosition& toCellPos) const
 {
 	// TODO: Validate the fromCell and toCell (Must be Horizontal or Vertical, and we can't have the first cell as a starting cell for a belt)
-
+	if (!fromCellPos.IsValidCell() || !toCellPos.IsValidCell())
+		return;
+	if (fromCellPos.GetCellNum() == 1)
+		return;
+	if (fromCellPos.HCell() != toCellPos.HCell() && fromCellPos.VCell() != toCellPos.VCell())
+		return;
 	// Get the start X and Y coordinates of the upper left corner of the fromCell and toCell
 	int fromCellStartX = GetCellStartX(fromCellPos);
 	int fromCellStartY = GetCellStartY(fromCellPos);
 	int toCellStartX = GetCellStartX(toCellPos);
 	int toCellStartY = GetCellStartY(toCellPos);
-	
+
 	int beltFromCellX = fromCellStartX + (UI.CellWidth / 2) + UI.BeltXOffset;
 	int beltToCellX = toCellStartX + UI.BeltXOffset;
 
@@ -571,25 +578,27 @@ void Output::DrawBelt(const CellPosition& fromCellPos, const CellPosition& toCel
 
 
 	// TODO: Draw the belt line and the triangle at the center of the line pointing to the direction of the belt
-
+	pWind->SetPen(UI.BeltColor, UI.BeltLineWidth);
+	pWind->DrawLine(beltFromCellX, beltFromCellY, beltToCellX, beltToCellY);
 	// TODO: 1. Set pen color and width using the appropriate parameters of UI_Info object (UI)
 	//       2. Draw the line of the belt using the appropriate coordinates
 
-	
+
 	// TODO: Draw the triangle at the center of the belt line pointing to the direction of the belt
-	
 
-
-
-	
-	
+	Direction dir;
+	if (fromCellPos.VCell() == toCellPos.VCell()) {
+		dir = (toCellPos.HCell() > fromCellPos.HCell()) ? RIGHT : LEFT;
+	}
+	else
+	{
+		dir = (toCellPos.VCell() > fromCellPos.VCell()) ? DOWN : UP;
+	}
+	int centerx = (beltFromCellX + beltToCellX) / 2;
+	int centery = (beltFromCellY + beltToCellY) / 2;
 	int triangleWidth = UI.CellWidth / 4;
 	int triangleHeight = UI.CellHeight / 4;
-
-
-
-
-
+	DrawTriangle(centerx, centery, triangleHeight, triangleWidth, dir, UI.BeltColor);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
