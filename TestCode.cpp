@@ -73,6 +73,7 @@ int main()
 
 
 	availableCommands[0] = NO_COMMAND;
+	savedCommands[0] = MOVE_FORWARD_TWO_STEPS;
 	pOut->CreateCommandsBar(savedCommands, 5, availableCommands, 6);
 	///TODO: Draw the command bar with 5 saved commands and 6 available commands,
 	/// 	but the first saved command will be MOVE_FORWARD_TWO_STEPS
