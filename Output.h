@@ -27,13 +27,13 @@ private:
 
 
 	// A helper function to draw a triangle with a certain color given its center, height, width, and direction
-	void Output::DrawTriangle(int triangleCenterX, int triangleCenterY, 
+	void DrawTriangle(int triangleCenterX, int triangleCenterY, 
 		int triangleHeight, int triangleWidth, 
 		Direction direction, color triangleColor, 
 		drawstyle style = FILLED, int penWidth = 1) const;
 
 	// A helper function to draw an image in the center of a cell
-	void Output::DrawImageInCell(const CellPosition& cellPos, string image, int width, int height) const;
+	void DrawImageInCell(const CellPosition& cellPos, string image, int width, int height) const;
 
 	void ClearToolBar() const;	// Clears the toolbar by drawing a filled rectangle
 

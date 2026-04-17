@@ -159,8 +159,8 @@ int main()
 
 	pOut->DrawPlayer(player_1, 0, UI.PlayerColors[0], RIGHT);
 	pOut->DrawPlayer(player_1, 1, UI.PlayerColors[1], UP);
-	pOut->DrawPlayer(player_1, 2, UI.PlayerColors[2], DOWN);
-	pOut->DrawPlayer(player_1, 3, UI.PlayerColors[3], LEFT);
+	pOut->DrawPlayer(player_1, 2, UI.PlayerColors[0], DOWN);
+	pOut->DrawPlayer(player_1, 3, UI.PlayerColors[1], LEFT);
 	pOut->DrawPlayer(player_15, 0, UI.PlayerColors[0], LEFT);
 	pOut->DrawPlayer(player_99, 1, UI.PlayerColors[1], UP);
 	pOut->DrawPlayer(player_99, 5, UI.PlayerColors[1], DOWN);
@@ -324,7 +324,6 @@ int main()
 	// 3- print on the status bar "You Entered" then print the string
 	// NOTE: GetString() is already implemented. It is just required from you to call it
 	string enteredString = pIn->GetSrting(pOut);
-	pIn->GetSrting(pOut);
 	pOut->ClearStatusBar();
 	pOut->PrintMessage("You Entered: " + enteredString);
 

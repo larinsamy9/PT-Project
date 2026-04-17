@@ -297,6 +297,7 @@ void Output::CreatePlayModeToolBar() const
 	
 	MenuItemImages[ITM_EXECUTE_COMMANDS] = "images\\Menu_Dice.jpg";
 	MenuItemImages[ITM_SELECT_COMMAND] = "images\\SelectCommand.jpg";
+	MenuItemImages[ITM_NEW_GAME] = "images\\New.jpg";
 	MenuItemImages[ITM_ROBOT] = "images\\Robot.jpg";
 	MenuItemImages[ITM_EXIT_Play] = "images\\Menu_Exit.jpg";
 	MenuItemImages[ITM_MOVE_FORWARD] = "images\\MoveForwardCard.jpg";
@@ -543,7 +544,7 @@ void Output::DrawPlayer(const CellPosition & cellPos, int playerNum, color playe
 		vx[2] = x + radius; vy[2] = y - radius;
 		break;
 	case(RIGHT):
-		vx[0] = x=radius; vy[0] = y;
+		vx[0] = x+radius; vy[0] = y;
 		vx[1] = x - radius; vy[1] = y - radius;
 		vx[2] = x - radius; vy[2] = y + radius;
 		break;
@@ -562,47 +563,63 @@ void Output::DrawPlayer(const CellPosition & cellPos, int playerNum, color playe
 
 void Output::DrawBelt(const CellPosition& fromCellPos, const CellPosition& toCellPos) const
 {
-	// TODO: Validate the fromCell and toCell (Must be Horizontal or Vertical, and we can't have the first cell as a starting cell for a belt)
+	// Draws a belt from start cell to end cell (start < end)
+
+	// TODO: Complete the implementation of this function as described in the PDF file
+
 	if (!fromCellPos.IsValidCell() || !toCellPos.IsValidCell())
 		return;
+
+	// start cell can't be the first cell
 	if (fromCellPos.GetCellNum() == 1)
 		return;
+
+	// the start and end cell should be in the same column or the same row
 	if (fromCellPos.HCell() != toCellPos.HCell() && fromCellPos.VCell() != toCellPos.VCell())
 		return;
-	// Get the start X and Y coordinates of the upper left corner of the fromCell and toCell
+
 	int fromCellStartX = GetCellStartX(fromCellPos);
 	int fromCellStartY = GetCellStartY(fromCellPos);
 	int toCellStartX = GetCellStartX(toCellPos);
 	int toCellStartY = GetCellStartY(toCellPos);
 
-	int beltFromCellX = fromCellStartX + (UI.CellWidth / 2) + UI.BeltXOffset;
-	int beltToCellX = toCellStartX + UI.BeltXOffset;
+	// beltFromCellX and beltFromCellY are the center of the fromCell
+	int beltFromCellX = fromCellStartX + UI.CellWidth / 2;
+	int beltFromCellY = fromCellStartY + UI.CellHeight / 2;
 
-	int beltFromCellY = fromCellStartY + UI.BeltYOffset;
-	int beltToCellY = toCellStartY + UI.BeltYOffset;
+	// beltToCellX and beltToCellY are the center of the toCell
+	int beltToCellX = toCellStartX + UI.CellWidth / 2;
+	int beltToCellY = toCellStartY + UI.CellHeight / 2;
 
-
-	// TODO: Draw the belt line and the triangle at the center of the line pointing to the direction of the belt
+	// drawing the belt line
 	pWind->SetPen(UI.BeltColor, UI.BeltLineWidth);
 	pWind->DrawLine(beltFromCellX, beltFromCellY, beltToCellX, beltToCellY);
-	// TODO: 1. Set pen color and width using the appropriate parameters of UI_Info object (UI)
-	//       2. Draw the line of the belt using the appropriate coordinates
 
-
-	// TODO: Draw the triangle at the center of the belt line pointing to the direction of the belt
-
+	// determining the direction of the belt
 	Direction dir;
-	if (fromCellPos.VCell() == toCellPos.VCell()) {
-		dir = (toCellPos.HCell() > fromCellPos.HCell()) ? RIGHT : LEFT;
+
+	if (fromCellPos.VCell() == toCellPos.VCell())
+	{
+		if (toCellPos.HCell() > fromCellPos.HCell())
+			dir = RIGHT;
+		else
+			dir = LEFT;
 	}
 	else
 	{
-		dir = (toCellPos.VCell() > fromCellPos.VCell()) ? DOWN : UP;
+		if (toCellPos.VCell() > fromCellPos.VCell())
+			dir = DOWN;
+		else
+			dir = UP;
 	}
+
+	// drawing the triangle in the middle of the belt
 	int centerx = (beltFromCellX + beltToCellX) / 2;
 	int centery = (beltFromCellY + beltToCellY) / 2;
+
 	int triangleWidth = UI.CellWidth / 4;
 	int triangleHeight = UI.CellHeight / 4;
+
 	DrawTriangle(centerx, centery, triangleHeight, triangleWidth, dir, UI.BeltColor);
 }
 

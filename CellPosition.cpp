@@ -91,6 +91,8 @@ int CellPosition::GetCellNumFromPosition(const CellPosition& cellPosition)
 
 	return ((4 - cellPosition.VCell()) * 11) + cellPosition.HCell() + 1;*/
 	// this line should be changed with your implementation
+	if (!cellPosition.IsValidCell())
+		return -1;
 	int v = cellPosition.VCell();
 	int h = cellPosition.HCell();
 
