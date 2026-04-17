@@ -645,6 +645,9 @@ void Output::DrawRotatingGear(const CellPosition& cellPos, bool clockwise) const
 	if (!cellPos.IsValidCell()) {
 		return;
 	}
+	if ((cellPos.HCell() == 4 && cellPos.VCell() == 10) || cellPos.HCell() == 0 || cellPos.VCell() == 10) {
+		return;
+	}
 	int cellStartX = GetCellStartX(cellPos);
 	int cellStartY = GetCellStartY(cellPos);
 	int centerX = cellStartX + UI.CellWidth / 2;
@@ -671,6 +674,9 @@ void Output::DrawAntenna(const CellPosition& cellPos) const
 	if (!cellPos.IsValidCell()) {
 		return;
 	}
+	if ((cellPos.HCell() == 4 && cellPos.VCell() == 10) || cellPos.HCell() == 0 || cellPos.VCell() == 10) {
+		return;
+	}
 	int cellStartX = GetCellStartX(cellPos);
 	int cellStartY = GetCellStartY(cellPos);
 	int centerX = cellStartX + UI.CellWidth / 2;
@@ -690,6 +696,9 @@ void Output::DrawAntenna(const CellPosition& cellPos) const
 void Output::DrawWorkshop(const CellPosition& cellPos) const
 {
 	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	if ((cellPos.HCell() == 4 && cellPos.VCell() == 10) || cellPos.HCell() == 0 || cellPos.VCell() == 10) {
 		return;
 	}
 	int cellStartX = GetCellStartX(cellPos);
@@ -713,6 +722,9 @@ void Output::DrawDangerZone(const CellPosition& cellPos) const
 	if (!cellPos.IsValidCell()) {
 		return;
 	}
+	if ((cellPos.HCell() == 4 && cellPos.VCell() == 10) || cellPos.HCell() == 0 || cellPos.VCell() == 10) {
+		return;
+	}
 	int cellStartX = GetCellStartX(cellPos);
 	int cellStartY = GetCellStartY(cellPos);
 	int centerX = cellStartX + UI.CellWidth / 2;
@@ -730,6 +742,9 @@ void Output::DrawWaterPit(const CellPosition& cellPos) const
 {
 	///TODO: Complete the implementation of the following function
 	if (!cellPos.IsValidCell()) {
+		return;
+	}
+	if ((cellPos.HCell() == 4 && cellPos.VCell() == 10) || cellPos.HCell() == 0 || cellPos.VCell() == 10) {
 		return;
 	}
 	int cellStartX = GetCellStartX(cellPos);
