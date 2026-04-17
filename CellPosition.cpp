@@ -3,14 +3,12 @@
 
 CellPosition::CellPosition()
 {
-	// (-1) indicating an invalid cell (uninitialized by the user)
 	vCell = -1;
 	hCell = -1;
 }
 
 CellPosition::CellPosition(int v, int h)
 {
-	// (-1) indicating an invalid cell (uninitialized by the user)
 	vCell = -1;
 	hCell = -1;
 
@@ -20,10 +18,7 @@ CellPosition::CellPosition(int v, int h)
 
 CellPosition::CellPosition(int cellNum)
 {
-	(*this) = GetCellPositionFromNum(cellNum); // the function call with build a cell position (vCell and hCell)
-	// from the passed (cellNum)
-	// (*this) = ... --> this will copy the returned (vCell and hCell)
-	//                   to the data members (vCell and hCell)
+	(*this) = GetCellPositionFromNum(cellNum);
 }
 
 bool CellPosition::SetVCell(int v)
@@ -33,9 +28,7 @@ bool CellPosition::SetVCell(int v)
 		vCell = v;
 		return true;
 	}
-	///TODO: Implement this function as described in the .h file (don't forget the validation)
-
-	return false; // this line sould be changed with your implementation
+	return false;
 }
 
 bool CellPosition::SetHCell(int h)
@@ -45,9 +38,7 @@ bool CellPosition::SetHCell(int h)
 		hCell = h;
 		return true;
 	}
-	///TODO: Implement this function as described in the .h file (don't forget the validation)
-
-	return false; // this line sould be changed with your implementation
+	return false;
 }
 
 int CellPosition::VCell() const
@@ -64,15 +55,11 @@ bool CellPosition::IsValidCell() const
 {
 	return (vCell >= 0 && vCell < NumVerticalCells &&
 		hCell >= 0 && hCell < NumHorizontalCells);
-	///TODO: Implement this function as described in the .h file
-
-	return false; // this line sould be changed with your implementation
 }
 
 int CellPosition::GetCellNum() const
 {
-	return GetCellNumFromPosition(*this); // (*this) is the calling object of GetCellNum
-	// which means the object of the current data members (vCell and hCell)
+	return GetCellNumFromPosition(*this);
 }
 
 int CellPosition::GetCellNumFromPosition(const CellPosition& cellPosition)
@@ -81,45 +68,44 @@ int CellPosition::GetCellNumFromPosition(const CellPosition& cellPosition)
 	int h = cellPosition.HCell();
 
 	return (NumVerticalCells - 1 - v) * NumHorizontalCells + h + 1;
-	// Note:
-	// this is a static function (do NOT need a calling object so CANNOT use the data members of the calling object, vCell&hCell)
-	// just define an integer that represents cell number and calculate it using the passed cellPosition then return it
-
-	///TODO: Implement this function as described in the .h file
-
-	return 0; // this line should be changed with your implementation
 }
 
 CellPosition CellPosition::GetCellPositionFromNum(int cellNum)
 {
-	// this is a static function (do NOT need a calling object so CANNOT use the data members of the calling object, vCell&hCell)
-
-	CellPosition position;
-
 	if (cellNum < 1 || cellNum > NumVerticalCells * NumHorizontalCells)
 		return CellPosition(-1, -1);
 
 	int v = NumVerticalCells - 1 - (cellNum - 1) / NumHorizontalCells;
 	int h = (cellNum - 1) % NumHorizontalCells;
 
+	CellPosition position;
 	position.SetVCell(v);
 	position.SetHCell(h);
 
 	return position;
-
-	/// TODO: Implement this function as described in the .h file
-
-	// Note: use the passed cellNum to set the vCell and hCell of the "position" variable declared inside the function
-	//       I mean: position.SetVCell(...) and position.SetHCell(...) then return it
 }
 
 void CellPosition::AddCellNum(int addedNum, Direction direction)
 {
 	int cellNum = GetCellNum();
 
-	/// TODO: Implement this function as described in the .h file
+	if (direction == UP)
+		cellNum += addedNum * NumHorizontalCells;
 
+	else if (direction == DOWN)
+		cellNum -= addedNum * NumHorizontalCells;
 
-	// Note: this function updates the data members (vCell and hCell) of the calling object
+	else if (direction == RIGHT)
+		cellNum += addedNum;
 
+	else if (direction == LEFT)
+		cellNum -= addedNum;
+
+	if (cellNum < 1 || cellNum > NumVerticalCells * NumHorizontalCells)
+		return;
+
+	CellPosition newPos = GetCellPositionFromNum(cellNum);
+
+	vCell = newPos.VCell();
+	hCell = newPos.HCell();
 }
